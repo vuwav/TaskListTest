@@ -17,7 +17,7 @@ class LoginAction
         $login = $request->input('login');
         $password = $request->input('password');
         $validator = validator(
-            $requestData, ['login' => 'required', 'password' => 'required|min:8']
+            $requestData, ['login' => 'required|min:4', 'password' => 'required|min:8']
         );
 
         try {
