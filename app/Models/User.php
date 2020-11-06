@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasToken;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -11,7 +12,7 @@ use Laravel\Lumen\Auth\Authorizable;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, HasFactory;
+    use Authenticatable, Authorizable, HasFactory, HasToken;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +20,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'login',
+        'password',
+        'password_confirmation',
+        'name',
+        'family',
+        'surname',
+        'role',
+        'api_token',
     ];
 
     /**
@@ -30,4 +38,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    static function refreshToken() {
+
+    }
 }

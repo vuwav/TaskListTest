@@ -23,6 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+config(['app.locale' => env('APP_LOCALE')]);
+
+
  $app->withFacades();
 
  $app->withEloquent();
@@ -109,6 +112,7 @@ $app->configure('app');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
+    require __DIR__.'/../routes/api.php';
     require __DIR__.'/../routes/web.php';
 });
 
