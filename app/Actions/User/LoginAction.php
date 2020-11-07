@@ -36,6 +36,7 @@ class LoginAction
 
         $api_token = User::createToken($login);
         User::where('login', $login)->update(['api_token' => $api_token]);
+        $user->api_token = $api_token;
 
         return [['message' => trans('success.user.successfully.login'), 'user' => $user], 200];
     }
