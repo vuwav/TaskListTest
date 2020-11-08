@@ -28,7 +28,7 @@ class RegisterAction
 
 
         try {
-            $validData = $validator->validated();
+            $validData = $validator->validate();
         } catch (ValidationException $e) {
             return [['message' => [$validator->errors()]], 400];
         }

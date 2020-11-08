@@ -21,7 +21,7 @@ class LoginAction
         );
 
         try {
-            $validator->validated();
+            $validator->validate();
         } catch (ValidationException $e) {
             return [['message' => [$validator->errors()]], 400];
         }
