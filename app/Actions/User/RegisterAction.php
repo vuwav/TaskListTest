@@ -33,7 +33,7 @@ class RegisterAction
             return [['message' => [$validator->errors()]], 400];
         }
 
-        $api_token = User::createToken($validData['login']);
+        $api_token = User::createToken();
 
         $validData['password'] = Hash::make($validData['password']);
         $validData['api_token'] = $api_token;

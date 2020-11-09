@@ -34,9 +34,7 @@ class LoginAction
             return [['message' => 'error.user.invalid.password'], 400];
         }
 
-        $api_token = User::createToken($login);
-        User::where('login', $login)->update(['api_token' => $api_token]);
-        $user->api_token = $api_token;
+        $user->api_token = $user->refreshToken();
 
         return [['message' => trans('success.user.successfully.login'), 'user' => $user], 200];
     }
