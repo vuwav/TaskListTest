@@ -14,6 +14,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory, HasToken;
 
+    public const ROLE_WORKER = 0;
+    public const ROLE_MANAGER = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -39,7 +42,38 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
-    static function refreshToken() {
-
+    public function checkRole($role)
+    {
+        return $this->role === $role;
     }
+
+    public function task($id)
+    {
+        return $this->tasks()->whereId($id);
+    }
+
+    public function tasks()
+    {
+        if ($this->checkRole(self::ROLE_WORKER)) {
+            return $this->hasMany(Task::class, 'worker_id', 'id');
+        }
+        if ($this->checkRole(self::ROLE_MANAGER)) {
+            return $this->hasMany(Task::class, 'manager_id', 'id');
+        }
+    }
+
+    public function workers()
+    {
+        if ($this->checkRole(self::ROLE_MANAGER)) {
+            return $this->hasMany(self::class, 'manager_id', 'id');
+        }
+    }
+
+    public function manager()
+    {
+        if ($this->checkRole(self::ROLE_WORKER)) {
+            return $this->hasOne(self::class, 'id', 'manager_id');
+        }
+    }
+
 }
