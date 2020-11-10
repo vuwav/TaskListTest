@@ -22,7 +22,7 @@ class StoreAction extends TaskAction
         try {
             $this->validData = $validator->validate();
         } catch (ValidationException $e) {
-            return [['message' => [$validator->errors()]], 400];
+            return [['message' => $validator->errors()], 400];
         }
 
         $user = $this->request->user();

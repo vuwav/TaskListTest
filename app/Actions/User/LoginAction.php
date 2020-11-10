@@ -23,7 +23,7 @@ class LoginAction
         try {
             $validator->validate();
         } catch (ValidationException $e) {
-            return [['message' => [$validator->errors()]], 400];
+            return [['message' => $validator->errors()], 400];
         }
 
         if (! $user = User::where('login', $login)->first()) {
@@ -31,7 +31,7 @@ class LoginAction
         }
 
         if (! Hash::check($password, $user->password)) {
-            return [['message' => 'error.user.invalid.password'], 400];
+            return [['message' => trans('error.user.invalid.password')], 400];
         }
 
         $user->api_token = $user->refreshToken();

@@ -16,7 +16,7 @@ class ShowAction extends TaskAction
         try {
             $validator->validated();
         } catch (ValidationException $e) {
-            return [['message' => [$validator->errors()]], 400];
+            return [['message' => $validator->errors()], 400];
         }
 
         if (!$task = $request->user()->task($id)->first()) {
