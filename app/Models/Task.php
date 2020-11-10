@@ -18,7 +18,7 @@ class Task extends Model
 
     const PRIORITY_LOW = 0;
     const PRIORITY_MIDDLE = 1;
-    const PRIORITY_HI = 2;
+    const PRIORITY_HIGH = 2;
 
     /**
      * The attributes that are mass assignable.
