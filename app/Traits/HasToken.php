@@ -8,14 +8,17 @@ use Illuminate\Support\Facades\Hash;
 
 trait HasToken
 {
-    static function createToken() {
+    public string $api_token;
+
+    static function createToken()
+    {
         return base64_encode(Hash::make(mt_rand() . time()));
     }
 
-    public function refreshToken() {
+    public function refreshToken()
+    {
         $token = static::createToken();
-        $this->api_token = $token;
-        $this->save();
+        $this->update(['api_token' => $token]);
         return $token;
     }
 }
