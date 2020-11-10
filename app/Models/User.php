@@ -55,10 +55,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function tasks()
     {
         if ($this->checkRole(self::ROLE_WORKER)) {
-            return $this->hasMany(Task::class, 'worker_id', 'id');
+            return $this->hasMany(Task::class, 'worker_id', 'id')->with('manager');
         }
         if ($this->checkRole(self::ROLE_MANAGER)) {
-            return $this->hasMany(Task::class, 'manager_id', 'id');
+            return $this->hasMany(Task::class, 'manager_id', 'id')->with('user');
         }
     }
 
