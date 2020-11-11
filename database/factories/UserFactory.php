@@ -28,8 +28,8 @@ class UserFactory extends Factory
             'surname' => $this->faker->firstName,
             'login' => $name,
             'password' => $pass = Hash::make('secret23'),
-            'role' => $role = $this->faker->numberBetween(0,1),
-            'manager_id' => $role ? 0 : $this->faker->numberBetween(1,10),
+            'role' => 1,
+            'manager_id' => 1,
             'api_token' => $pass
         ];
     }

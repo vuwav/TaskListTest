@@ -27,8 +27,10 @@ class TaskFactory extends Factory
             'description' => $this->faker->text(100),
             'priority' => $this->faker->numberBetween(0, 2),
             'status' => $this->faker->numberBetween(0, 3),
-            'manager_id' => $this->faker->numberBetween(1, 3),
-            'worker_id' => $this->faker->numberBetween(4, 10),
+            'manager_id' => 1,
+            'worker_id' => $this->faker->numberBetween(1, 10),
+            'creator_id' => $this->faker->numberBetween(1,10),
+            'done_at' => $this->faker->dateTimeBetween('yesterday', '+30 days'),
         ];
     }
 }
