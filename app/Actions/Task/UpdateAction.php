@@ -54,15 +54,23 @@ class UpdateAction extends TaskAction
 
     private function workerUpdateTask()
     {
-        $managerId = $this->request->user()
-            ->manager()->get('id')
+        $user = $this->request->user();
+        $task = $this->request->user()->task($this->id)->first();
+
+        $managerId = $user->manager()->get('id')
             ->map(fn($manager) => $manager['id']);
         if (!in_array($this->validData['manager_id'], $managerId->toArray())) {
             return [['message' => trans('error.task.not.your.manager')], 400];
         }
 
+        if (
+            $task->creator_id !== $user->id
+        ) {
+            $this->validData = ['status' => $this->validData['status']];
+        }
+
         try {
-            $this->request->user()->task($this->id)->update(['status' => $this->validData['status']]);
+            $this->request->user()->task($this->id)->update($this->validData);
         } catch (\Exception $e) {
             return [['message' => trans('error.task.when.creating')], 400];
         }
