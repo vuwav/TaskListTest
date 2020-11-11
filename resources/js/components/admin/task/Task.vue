@@ -93,7 +93,6 @@
                       <v-date-picker
                         v-model="editedItem.done_at"
                         no-title
-                        label="Статус"
                         scrollable
                       >
                         <v-spacer></v-spacer>
@@ -102,7 +101,7 @@
                           color="primary"
                           @click="menu = false"
                         >
-                          Cancel
+                          Отмена
                         </v-btn>
                         <v-btn
                           text
@@ -219,7 +218,6 @@ export default {
     settings: [],
     editedIndex: -1,
     editedItem: {
-      done_at: new Date().toLocaleString('ru'),
     },
     defaultItem: {
     },
@@ -309,7 +307,6 @@ export default {
       val || this.close();
     }
   },
-
 
   mounted() {
     axios
