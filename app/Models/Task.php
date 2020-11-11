@@ -32,11 +32,17 @@ class Task extends Model
         'status',
         'manager_id',
         'worker_id',
+        'creator_id',
         'done_at',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'worker_id', 'id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id', 'id');
     }
 }
