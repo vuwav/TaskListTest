@@ -21,7 +21,7 @@ class CreateTasksTable extends Migration
             $table->integer('status');
             $table->integer('manager_id');
             $table->integer('worker_id');
-            $table->timestamp('done_at')->nullable()->default(null);
+            $table->dateTime('done_at')->nullable();
             $table->timestamps();
         });
     }

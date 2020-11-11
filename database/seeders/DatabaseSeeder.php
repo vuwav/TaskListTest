@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
          DB::table('users')->where('id', '>' , 1)->update(['role' => 0]);
          DB::table('users')->update(['manager_id' => 1]);
          DB::table('tasks')->update(['creator_id' => 1]);
+         $admin = DB::table('users')->select('login')->whereId(1)->first();
+         $this->command->info('Manager Login: ' . $admin->login . ' | Password: sercret23');
+
     }
 }
