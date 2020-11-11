@@ -3,6 +3,7 @@
 
 namespace App\Actions\Task;
 
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
 class DestroyAction extends TaskAction
@@ -19,9 +20,20 @@ class DestroyAction extends TaskAction
             return [['message' => $validator->errors()], 400];
         }
 
-        if (!$task = $request->user()->task($id)->delete()) {
-            return [['message' => trans('error.task.you.dont.have')], 401];
+        $user = $request->user();
+        $task = $request->user()->task($id)->first();
+
+        if (
+            $user->role === User::ROLE_WORKER &&
+            $task->creator_id !== $user->id
+        ) {
+            return [['message' => trans('error.task.you.cant.delete')], 400];
         }
-        return [['message' => trans('success.task.deleted')], 200];
+
+        if (!$task->delete()) {
+            return [['message' => trans('error.task.you.dont.have')], 400];
+        }
+
+        return [['message' => trans('success.task.deleted'), 'task' => $task], 200];
     }
 }
