@@ -4,6 +4,7 @@
     <v-data-table
       :headers="headers"
       :items="tasks"
+      :search="search"
       sort-by="created_at"
       sort-desc
       multi-sort
@@ -125,6 +126,19 @@
             </v-card>
           </v-dialog>
         </v-toolbar>
+        <v-spacer></v-spacer>
+        <v-container
+          class="p-2">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Поиск"
+            single-line
+            hide-details
+
+          ></v-text-field>
+        </v-container>
+        <v-spacer></v-spacer>
       </template>
 
       <template v-slot:item.title="{ item }">
@@ -188,6 +202,7 @@ export default {
   data: () => ({
     menu: false,
     dialog: false,
+    search: '',
     user: {
       name: null,
       email: null,
