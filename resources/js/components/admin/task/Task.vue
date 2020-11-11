@@ -324,7 +324,6 @@ export default {
     this.user = Object.assign(this.user, this.auth)
     if (this.user.role === settings.userRole.manager) {
       this.headers.push({text: "Вполняет", value: "user.name"})
-      console.log(this.user)
       if(this.user.workers === undefined){
         window.location.reload()
       }
