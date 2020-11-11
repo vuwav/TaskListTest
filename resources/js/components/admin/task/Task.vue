@@ -62,6 +62,14 @@
                     ></v-select>
                   </v-row>
                   <v-row>
+                    <v-select
+                      name="status"
+                      :items="status"
+                      v-model="editedItem.status"
+                      label="Статус"
+                    ></v-select>
+                  </v-row>
+                  <v-row>
                     <v-menu
                       ref="menu"
                       v-model="menu"
@@ -71,18 +79,21 @@
                       offset-y
                       min-width="290px"
                     >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="editedItem.done_at"
-                          label="Выполнить к"
-                          name="done_at"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="editedItem.done_at"
+                        label="Выполнить к"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+
                       <v-date-picker
+                        v-model="editedItem.done_at"
                         no-title
+                        label="Статус"
                         scrollable
                       >
                         <v-spacer></v-spacer>
@@ -91,7 +102,7 @@
                           color="primary"
                           @click="menu = false"
                         >
-                          Отмена
+                          Cancel
                         </v-btn>
                         <v-btn
                           text
@@ -103,14 +114,7 @@
                       </v-date-picker>
                     </v-menu>
                   </v-row>
-                  <v-row>
-                    <v-select
-                      name="status"
-                      :items="status"
-                      v-model="editedItem.status"
-                      label="Статус"
-                    ></v-select>
-                  </v-row>
+
                 </v-container>
               </v-card-text>
 
@@ -215,7 +219,6 @@ export default {
     settings: [],
     editedIndex: -1,
     editedItem: {
-      status: null,
       done_at: new Date().toLocaleString('ru'),
     },
     defaultItem: {
@@ -240,7 +243,6 @@ export default {
         axios
           .delete('/' + api.path('task') + '/' + item.id)
           .then(response => {
-            console.log(response.data)
             this.$toast.success(response.data.message)
             this.tasks.splice(this.editedIndex, 1)
           })
@@ -261,12 +263,12 @@ export default {
       if (this.editedIndex > -1) {
         let index = this.editedIndex
         let postData = this.editedItem
-        console.log(postData)
         postData.manager_id = this.user.manager_id
+        postData.done_at = this.getTimeStamp(postData.done_at)
         axios
           .put('/' + api.path('task') + '/' + this.editedItem.id, postData)
           .then(response => {
-            Object.assign(this.tasks[index], this.editedItem)
+            Object.assign(this.tasks[this.editedIndex], this.editedItem)
             this.$toast.success('Задача обновлена');
           })
       } else {
@@ -274,7 +276,6 @@ export default {
         postData.manager_id = this.user.manager_id
         postData.done_at = this.getTimeStamp(postData.done_at)
 
-        console.log(postData)
         axios
           .post('/' + api.path('task'), postData)
           .then(response => {
@@ -309,12 +310,12 @@ export default {
     }
   },
 
+
   mounted() {
     axios
       .get('/' + api.path('task'))
       .then(response => {
         this.tasks = response.data.tasks;
-        console.log(response.data)
       })
       .catch(error => {
         this.$toast.error("Ошибка");
@@ -323,6 +324,10 @@ export default {
     this.user = Object.assign(this.user, this.auth)
     if (this.user.role === settings.userRole.manager) {
       this.headers.push({text: "Вполняет", value: "user.name"})
+      console.log(this.user)
+      if(this.user.workers === undefined){
+        window.location.reload()
+      }
     }
     if (this.user.role === settings.userRole.worker) {
       this.headers.push({text: "Руководитель", value: "manager.name"})
