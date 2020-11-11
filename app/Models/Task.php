@@ -36,6 +36,19 @@ class Task extends Model
         'done_at',
     ];
 
+    protected $dates = ['created_at', 'deleted_at', 'done_at'];
+
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            if(request()->user())
+                $model->creator_id = request()->user()->id;
+        });
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class, 'worker_id', 'id');
