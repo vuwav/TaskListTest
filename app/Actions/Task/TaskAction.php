@@ -21,6 +21,7 @@ class TaskAction
             'status' => 'required|between:0,3',
             'manager_id' => 'required|numeric',
             'worker_id' => 'required|numeric',
+            'done_at' => 'date'
         ];
         $rules = [
             ShowAction::class => $showDestroy,
