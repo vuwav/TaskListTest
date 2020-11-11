@@ -28,7 +28,7 @@ export const settings = {
     title:[
       'Низкий',
       'Средний',
-      'Высокоий',
+      'Высокий',
     ],
     low: 0,
     middle: 1,
