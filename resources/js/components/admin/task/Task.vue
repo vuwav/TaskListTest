@@ -11,11 +11,13 @@
       class="elevation-1"
     >
       <template v-slot:top>
+
         <v-toolbar>
           <v-toolbar flat color="dark">
             <v-toolbar-title class="mr-7">Задачи</v-toolbar-title>
             <div class="flex-grow-1"></div>
           </v-toolbar>
+
           <v-dialog v-model="dialog" max-width="500px">
             <template v-slot:activator="{ on }">
               <v-btn
@@ -80,16 +82,16 @@
                       offset-y
                       min-width="290px"
                     >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="editedItem.done_at"
-                        label="Выполнить к"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="editedItem.done_at"
+                          label="Выполнить к"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
 
                       <v-date-picker
                         v-model="editedItem.done_at"
@@ -232,10 +234,8 @@ export default {
     workers: [],
     settings: [],
     editedIndex: -1,
-    editedItem: {
-    },
-    defaultItem: {
-    },
+    editedItem: {},
+    defaultItem: {},
   }),
 
   computed: mapGetters({
@@ -336,7 +336,7 @@ export default {
     this.user = Object.assign(this.user, this.auth)
     if (this.user.role === settings.userRole.manager) {
       this.headers.push({text: "Вполняет", value: "user.name"})
-      if(this.user.workers === undefined){
+      if (this.user.workers === undefined) {
         window.location.reload()
       }
     }
